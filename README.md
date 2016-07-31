@@ -3,6 +3,9 @@ Generate TypeScript/JavaScript based on MSSQL.
 
 Work in progress.
 
+## Dependencies
+[node-mssql](https://github.com/patriksimek/node-mssql)
+
 ## Installation
 ```
 $ not yet published
