@@ -9,7 +9,7 @@ $ not yet published
 ```
 
 ## Usage
-> Lets assume you have your stored procedure.
+
 ```
 CREATE PROCEDURE dbo.CreateUser
   @Name nvarchar(50),
@@ -25,11 +25,11 @@ CREATE PROCEDURE dbo.CreateUser
 
 END
 ```
-> run your command
+
 ```bin
 $ tssql -g -p --schema dbo
 ```
-> output
+
 ```js
 const sql = require('mssql');
 
