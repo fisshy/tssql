@@ -45,8 +45,6 @@ if(argv.p && argv.g && argv.schema) {
           return;
         }
 
-        console.log("found data");
-
         var parallel = recordset.map(function(row) {
           return function(done) {
             request = new sql.Request(connection);
@@ -80,7 +78,7 @@ if(argv.p && argv.g && argv.schema) {
 
             var classWrapper = generator.createClass(argv.schema, results);
             generator.createFile(argv.schema, classWrapper);
-            
+
             connection.close();
         });
 

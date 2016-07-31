@@ -1,36 +1,4 @@
-# tssql
-Generate TypeScript/JavaScript based on MSSQL.
 
-Work in progress.
-
-## Installation
-```
-$ not yet published
-```
-
-## Usage
-> Lets assume you have your stored procedure.
-```
-CREATE PROCEDURE dbo.CreateUser
-  @Name nvarchar(50),
-  @Email nvarchar(50)
-  AS
-  BEGIN
-  SET NOCOUNT ON;
-
-  INSERT INTO dbo.[User](Name, Email)
-  VALUES(@Name, @Email);
-
-  RETURN SCOPE_IDENTITY();
-
-END
-```
-> run your command
-```bin
-$ tssql -g -p --schema dbo
-```
-> output
-```js
 const sql = require('mssql');
 
 function dbo(connection) {
@@ -39,15 +7,15 @@ function dbo(connection) {
 
   this.connection = connection;
 
-
+  
   this.CreateUser = function(Name, Email, done) {
-
+    
     var request = new sql.Request(self.connection);
 
     request.input('Name', sql.NVarChar (100), Name)
     request.input('Email', sql.NVarChar (100), Email)
 
-
+    
 
     request.execute('dbo.CreateUser', function(err, recordsets, returnValue, affected) {
       done.apply(self, arguments);
@@ -58,4 +26,4 @@ function dbo(connection) {
 }
 
 modules.export = dbo;
-```
+    
