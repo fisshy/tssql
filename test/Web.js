@@ -8,7 +8,6 @@ function Web(connection) {
   this.connection = connection;
 
   
-
   this.Error = function(Key, Culture, done) {
     
     var request = new sql.Request(self.connection);
@@ -23,8 +22,6 @@ function Web(connection) {
     });
 
   }
-
-  
 
   this.RegisterUser = function(params, done) {
     
@@ -45,9 +42,6 @@ function Web(connection) {
     });
 
   }
-
-  
-
 
   this.AddProjectTask = function(params, done) {
     
@@ -70,9 +64,6 @@ function Web(connection) {
 
   }
 
-  
-
-
   this.AddProjectUser = function(params, done) {
     
     var request = new sql.Request(self.connection);
@@ -90,9 +81,6 @@ function Web(connection) {
     });
 
   }
-
-  
-
 
   this.AddTeamUser = function(params, done) {
     
@@ -112,9 +100,6 @@ function Web(connection) {
 
   }
 
-  
-
-
   this.CreateCustomer = function(AuthorUserId, AccountId, Name, done) {
     
     var request = new sql.Request(self.connection);
@@ -130,9 +115,6 @@ function Web(connection) {
     });
 
   }
-
-  
-
 
   this.CreateProject = function(params, done) {
     
@@ -161,9 +143,6 @@ function Web(connection) {
 
   }
 
-  
-
-
   this.CreateTeam = function(AuthorUserId, AccountId, Name, done) {
     
     var request = new sql.Request(self.connection);
@@ -179,8 +158,6 @@ function Web(connection) {
     });
 
   }
-
-  
 
 }
 

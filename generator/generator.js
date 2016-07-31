@@ -50,20 +50,19 @@ module.exports = {
     });
 `;
 
-    var func = `
-
+    var func =
+`
   this.${name} = function(${input_params}, done) {
     ${content}
   }
-
-  `;
+`;
 
 
     return func;
   },
   createClass(schema, functions) {
     var content = functions.reduce(function(curr, prev) {
-      return curr + prev + '\n'
+      return curr + prev
     });
     var func = `
 const sql = require('mssql');
