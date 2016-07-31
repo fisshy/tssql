@@ -1,0 +1,35 @@
+{
+  "name": "tssql",
+  "version": "1.0.0",
+  "description": "Generate typescript/javascript code from MSSQL.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "preferGlobal": true,
+  "bin": {
+    "tssql": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fisshy/tssql.git"
+  },
+  "keywords": [
+    "sql",
+    "mssql",
+    "ts",
+    "javascript"
+  ],
+  "author": "Joachim Karlsson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fisshy/tssql/issues"
+  },
+  "homepage": "https://github.com/fisshy/tssql#readme",
+  "dependencies": {
+    "async": "^2.0.1",
+    "minimist": "^1.2.0",
+    "mssql": "^3.3.0"
+  },
+  "connectionString": ""
+}
