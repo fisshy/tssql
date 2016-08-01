@@ -39,20 +39,15 @@ module.exports = {
 
     var content =
 `
-    var request = new sql.Request(self.connection);
-
+    var request = new sql.Request(this.connection);
     ${sql_input_params}
-
     ${sql_output_params}
-
-    request.execute('${procedure_name}', function(err, recordsets, returnValue, affected) {
-      done.apply(self, arguments);
-    });
+    request.execute('${procedure_name}', done);
 `;
 
     var func =
 `
-  this.${name} = function(${input_params}, done) {
+  ${name}(${input_params}, done) {
     ${content}
   }
 `;
@@ -64,19 +59,17 @@ module.exports = {
     var content = functions.reduce(function(curr, prev) {
       return curr + prev
     });
-    var func = `
-const sql = require('mssql');
+    var func =
+`const sql = require('mssql');
 
-function ${schema}(connection) {
+export class ${schema}(connection) {
 
-  var self = this;
-
-  this.connection = connection;
+  constructor(connection) {
+    this.connection = connection;
+  }
 
   ${content}
 }
-
-modules.export = ${schema};
     `
     return func;
   },

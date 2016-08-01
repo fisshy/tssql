@@ -7,13 +7,13 @@ Work in progress.
 [node-mssql](https://github.com/patriksimek/node-mssql)
 
 ## Installation
-```
+```bin
 $ not yet published
 ```
 
 ## Usage
 
-```
+```sql
 CREATE PROCEDURE dbo.CreateUser
   @Name nvarchar(50),
   @Email nvarchar(50)
@@ -36,29 +36,22 @@ $ tssql -g -p --schema dbo
 ```js
 const sql = require('mssql');
 
-function dbo(connection) {
+export class dbo(connection) {
 
-  var self = this;
+  constructor(connection) {
+    this.connection = connection;
+  }
 
-  this.connection = connection;
 
+  CreateUser(Name, Email, done) {
 
-  this.CreateUser = function(Name, Email, done) {
-
-    var request = new sql.Request(self.connection);
-
+    var request = new sql.Request(this.connection);
     request.input('Name', sql.NVarChar (100), Name)
     request.input('Email', sql.NVarChar (100), Email)
 
-
-
-    request.execute('dbo.CreateUser', function(err, recordsets, returnValue, affected) {
-      done.apply(self, arguments);
-    });
+    request.execute('dbo.CreateUser', done);
 
   }
 
 }
-
-modules.export = dbo;
 ```

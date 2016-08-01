@@ -1,29 +1,21 @@
-
 const sql = require('mssql');
 
-function dbo(connection) {
+export class dbo(connection) {
 
-  var self = this;
-
-  this.connection = connection;
+  constructor(connection) {
+    this.connection = connection;
+  }
 
   
-  this.CreateUser = function(Name, Email, done) {
+  CreateUser(Name, Email, done) {
     
-    var request = new sql.Request(self.connection);
-
+    var request = new sql.Request(this.connection);
     request.input('Name', sql.NVarChar (100), Name)
     request.input('Email', sql.NVarChar (100), Email)
-
     
-
-    request.execute('dbo.CreateUser', function(err, recordsets, returnValue, affected) {
-      done.apply(self, arguments);
-    });
+    request.execute('dbo.CreateUser', done);
 
   }
 
 }
-
-modules.export = dbo;
     
