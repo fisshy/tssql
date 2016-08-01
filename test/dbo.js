@@ -1,15 +1,15 @@
 const sql = require('mssql');
 
-export class dbo(connection) {
+export class Dbo(connection) {
 
   constructor(connection) {
     this.connection = connection;
   }
 
   
-  CreateUser(Name, Email, done) {
+  createUser(Name, Email, done) {
     
-    var request = new sql.Request(this.connection);
+    const request = new sql.Request(this.connection);
     request.input('Name', sql.NVarChar (100), Name)
     request.input('Email', sql.NVarChar (100), Email)
     

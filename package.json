@@ -28,8 +28,10 @@
   "homepage": "https://github.com/fisshy/tssql#readme",
   "dependencies": {
     "async": "^2.0.1",
+    "camelcase": "^3.0.0",
     "minimist": "^1.2.0",
-    "mssql": "^3.3.0"
+    "mssql": "^3.3.0",
+    "uppercamelcase": "^1.1.0"
   },
   "connectionString": ""
 }
