@@ -1,5 +1,5 @@
 # tssql
-Generate TypeScript/JavaScript based on MSSQL.
+Generate TypeScript/ES6 based on MSSQL.
 
 Work in progress.
 
