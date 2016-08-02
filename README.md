@@ -13,6 +13,7 @@ $ not yet published
 
 ## Usage
 
+### Stored Procedure
 ```sql
 CREATE PROCEDURE dbo.CreateUser
   @Name nvarchar(50),
@@ -55,3 +56,5 @@ export class Dbo(connection) {
 
 }
 ```
+
+### Table Valued functions
