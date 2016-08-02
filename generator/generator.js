@@ -76,6 +76,6 @@ export class ${upperCamelCase(schema)}(connection) {
     return func;
   },
   createFile(fileName, content) {
-    return createFile(fileName, content);
+    return createFile(upperCamelCase(fileName), content);
   }
 };
