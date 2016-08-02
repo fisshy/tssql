@@ -14,6 +14,7 @@ $ not yet published
 ## Usage
 
 ### Stored Procedure
+#### Input
 ```sql
 CREATE PROCEDURE dbo.CreateUser
   @Name nvarchar(50),
@@ -29,10 +30,13 @@ CREATE PROCEDURE dbo.CreateUser
 
 END
 ```
-
+#### Command
 ```bin
 $ tssql -g -p --schema dbo
 ```
+
+#### Output
+> Dbo.js
 
 ```js
 const sql = require('mssql');
