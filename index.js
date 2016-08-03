@@ -3,8 +3,8 @@ const sql = require('mssql');
 const argv = require('minimist')(process.argv.slice(2));
 const _ = require('async');
 
-const select_procedures_target_schema = require('./queries/select_procedures_target_schema')();
-const select_input_params_for_procedure = require('./queries/select_input_params_for_procedure')();
+const select_target_schema = require('./queries/select_target_schema')();
+const select_input_params = require('./queries/select_input_params')();
 
 const generator = require('./generator/generator');
 
@@ -15,10 +15,11 @@ console.dir(argv);
 /* tssql generate --procedure --schema Web*/
 /* tssql generate -p -s Web*/
 
-var config = require('./tssql.config.json')
+const config = require('./tssql.config.json')
 
+let hasTarget = argv.p || argv.tf || argv.t;
 
-if(argv.p && argv.g && argv.schema) {
+if(argv.g && argv.schema) {
 
   var connection = new sql.Connection(config);
 
@@ -29,9 +30,12 @@ if(argv.p && argv.g && argv.schema) {
       return;
     }
 
-    var request = new sql.Request(connection);
+    const type = argv.p ? "P" : (argv.tf ? "TF" : null);
+
+    let request = new sql.Request(connection);
     request.input('schema', sql.NVarChar, argv.schema);
-    request.query(select_procedures_target_schema, function(err, recordset) {
+
+    request.query(select_target_schema, function(err, recordset) {
 
         if(err) {
           console.log("prepare error", err);
@@ -49,7 +53,7 @@ if(argv.p && argv.g && argv.schema) {
           return function(done) {
             request = new sql.Request(connection);
             request.input('object_id', sql.Int, row.object_id);
-            request.query(select_input_params_for_procedure, function(err, recordset) {
+            request.query(select_input_params, function(err, recordset) {
 
               if(err) {
                 done(err);
@@ -57,13 +61,19 @@ if(argv.p && argv.g && argv.schema) {
               }
 
               if(!recordset || !recordset.length) {
-                done("recordset empty");
+                done(null, '');
                 return;
+              }
+
+              if(hasTarget) {
+                if(row.type === "P" && !argv.p) { done(null, ''); return; }
+                if(row.type === "TF" && !argv.tf) { done(null, ''); return; }
+                if(row.type === "T" && !argv.t) { done(null, ''); return; }
               }
 
               row.input_params = recordset;
 
-              done(null, generator.createFunction(row));
+              done(null, generator.createFunction(row.type, row));
 
             });
           };
@@ -71,7 +81,9 @@ if(argv.p && argv.g && argv.schema) {
         });
 
         _.parallel(parallel, function(err, results) {
+
             if(err) {
+              console.log(err);
               connection.close();
               return;
             }
