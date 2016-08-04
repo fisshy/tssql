@@ -98,11 +98,23 @@ CREATE TABLE [dbo].[User] (
 ```bin
 $ tssql -g --schema dbo
 ```
+#### Output
+> Dbo.ts
+```js
+```
+
+OR
+#### Command
+```bin
+$ tssql -g -js --schema dbo
+```
 
 #### Output
 > Dbo.js
 
 ```js
+const sql = require('mssql');
+
 class Dbo {
 
   constructor(connection) {
