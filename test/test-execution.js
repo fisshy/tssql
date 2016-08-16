@@ -1,7 +1,7 @@
 const config = require('../tssql.config.json')
 const sql = require('mssql');
 const Dbo = require('./Dbo');
-
+var connection = new sql.Connection(config);
 test = () => {
   var connection = new sql.Connection(config);
 

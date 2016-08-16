@@ -1,4 +1,5 @@
 module.exports = function(type, length, precision, scale) {
+  length = length == -1 ? "sql.MAX" : length;
   switch (type) {
     case'bit': return 'sql.Bit'
     case'bigint': return 'sql.BigInt'
