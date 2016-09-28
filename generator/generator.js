@@ -96,7 +96,7 @@ module.exports = {
 
     const content =
 `
-    const request = new sql.Request(this.connection);
+    const request = new sql.Request(this.transaction || this.connection);
     ${sql_input_params}
     ${sql_output_params}
     ${exec_or_select}
@@ -126,6 +126,23 @@ class ${className} {
 
   constructor(connection) {
     this.connection = connection;
+  }
+
+  startTransaction() {
+      this.transaction = new sql.Transaction(this.connection);
+      return this.transaction;
+  }
+
+  rollbackTransaction(done) {
+      if(this.transaction) {
+          this.transaction.rollback(done);
+      }
+  }
+
+  commitTransaction(done) {
+      if(this.transaction) {
+          this.transaction.commit(done);
+      }
   }
 
   ${content}
