@@ -15,7 +15,7 @@ console.dir(argv);
 /* tssql generate --procedure --schema Web*/
 /* tssql generate -p -s Web*/
 
-const config = require('./tssql.config.json')
+const config = require(process.cwd() + '\\tssql.config.json');
 
 let hasTarget = argv.p || argv.tf || argv.t;
 
