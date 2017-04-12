@@ -60,10 +60,6 @@ if(argv.g && argv.schema) {
                 return;
               }
 
-              if(!recordset || !recordset.length) {
-                done(null, '');
-                return;
-              }
 
               if(hasTarget) {
                 if(row.type === "P" && !argv.p) { done(null, ''); return; }
