@@ -5,6 +5,7 @@ const _ = require('async');
 
 const select_target_schema = require('./queries/select_target_schema')();
 const select_input_params = require('./queries/select_input_params')();
+const select_table_columns = require('./queries/select_table_columns')();
 
 const generator = require('./generator/generator');
 
@@ -21,9 +22,16 @@ let hasTarget = argv.p || argv.tf || argv.t;
 
 if(argv.g && argv.schema) {
 
-  var connection = new sql.Connection(config);
 
-  connection.connect(function(err) {
+  let connection = new sql.ConnectionPool(config);
+
+  connection.on('error', () => {
+    if(err) {
+      console.log("error", err);
+    }
+  });
+
+  connection.connect(err => {
 
     if(err) {
       console.log("error", err);
@@ -33,15 +41,19 @@ if(argv.g && argv.schema) {
     const type = argv.p ? "P" : (argv.tf ? "TF" : null);
 
     let request = new sql.Request(connection);
+
     request.input('schema', sql.NVarChar, argv.schema);
 
-    request.query(select_target_schema, function(err, recordset) {
+    request.query(select_target_schema, (err, result) => {
+
 
         if(err) {
           console.log("prepare error", err);
           connection.close();
           return;
         }
+
+        let recordset = result.recordset;
 
         if(!recordset || !recordset.length) {
           console.log("recordset empty");
@@ -53,7 +65,7 @@ if(argv.g && argv.schema) {
           return function(done) {
             request = new sql.Request(connection);
             request.input('object_id', sql.Int, row.object_id);
-            request.query(select_input_params, function(err, recordset) {
+            request.query(select_input_params, function(err, result) {
 
               if(err) {
                 done(err);
@@ -67,9 +79,24 @@ if(argv.g && argv.schema) {
                 if(row.type === "T" && !argv.t) { done(null, ''); return; }
               }
 
-              row.input_params = recordset;
+              row.input_params = result.recordset;
 
-              done(null, generator.createFunction(row.type, row));
+              request = new sql.Request(connection);
+              request.input('object_id', sql.Int, row.object_id);
+
+              /* Lets try find columns for custom made table types */
+              request.query(select_table_columns, (err, result) => {
+
+                if(err) {
+                  done(err);
+                  return;
+                }
+
+                row.table_columns = result.recordset;
+
+                done(null, generator.createFunction(row.type, row));
+
+              });
 
             });
           };

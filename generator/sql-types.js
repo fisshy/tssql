@@ -33,6 +33,6 @@ module.exports = function(type, length, precision, scale) {
     case'udt': return 'sql.UDT'
     case'geography': return 'sql.Geography'
     case'geometry': return 'sql.Geometry'
-    default: return 'not_found'
+    default: return type
   }
 }
